@@ -2,8 +2,10 @@ require('dotenv').config();
 
 const http = require('http');
 const express = require('express');
+const path = require('path');
 
 const db = require('./db');
+const { resolve } = require('path');
 db.sequelize
   .authenticate()
   .then(async () => {
@@ -29,6 +31,14 @@ app.use((err, req, res, next) => {
   console.log(err);
   res.status(500).send({ error: 'request failed' });
 });
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.resolve(__dirname, 'client', 'build')));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
 
 const PORT = process.env.PORT || 4000;
 http
