@@ -14,11 +14,11 @@ async function login(req, res) {
 
   try {
     const ticket = await client.verifyIdToken({ idToken: token });
-    const id = ticket.getPayload().sub;
+    const { sub: id, email } = ticket.getPayload();
 
     let user = await User.findByPk(id);
     if (!user) {
-      user = await User.create({ id });
+      user = await User.create({ id, email });
     }
 
     const jwtToken = jwt.sign({ id }, process.env.JWT_SECRET);
@@ -27,8 +27,6 @@ async function login(req, res) {
     console.log(err);
     return res.status(400).send({ error: 'Request failed' });
   }
-
-  res.send({ success: true });
 }
 
 router.post('/auth/login', login);

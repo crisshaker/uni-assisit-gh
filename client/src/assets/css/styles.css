@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Cabin:wght@400&display=swap');
 
 *,
 *::before,
@@ -35,6 +35,165 @@ a {
 
 button {
   cursor: pointer;
+}
+
+/* ------------------ Button Styles ---------------------- */
+.vcx.button {
+  border-radius: 4px;
+  border: none;
+}
+
+.vcx.button i {
+  margin: 0 8px;
+}
+
+.vcx.button.block {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.vcx.button.orange {
+  color: #fff;
+  background: #ff6600;
+}
+
+.vcx.button.blue {
+  color: #fff;
+  background: #106bd1;
+}
+
+.vcx.button.red {
+  color: #fff;
+  background: #e30e0e;
+}
+
+.vcx.button.green {
+  color: #fff;
+  background: #33a800;
+}
+
+.vcx.button.block.outline {
+  background: #fff;
+  border: 1px solid #4a7fd6;
+  color: #1c54b0;
+}
+
+.vcx.button.block.rounded {
+  border-radius: 32px;
+}
+
+.vcx.button:disabled {
+  background: #8c919e;
+}
+
+/* ------------------ Input Styles ---------------------- */
+input.vcx[type='text'],
+input.vcx[type='password'] {
+  display: block;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #dddddd;
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 4px;
+  padding: 12px;
+  outline: none;
+  font-family: Cabin, sans-serif;
+  font-size: 16px;
+  color: #2c2c5b;
+}
+
+input.vcx[type='text'].error,
+input.vcx[type='password'].error {
+  border-color: #d11212;
+}
+
+input.vcx[type='text']:focus:not(.error),
+input.vcx[type='password']:focus:not(.error) {
+  border: 1px solid #00aeef;
+}
+
+/* ------------------ Select Styles ---------------------- */
+.vcx.select {
+  position: relative;
+}
+
+.vcx.select::after {
+  display: block;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  font-size: 12px;
+  content: '\f078';
+  color: #282828;
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.vcx.select select {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  padding: 14px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  background: #fff;
+  outline: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  font-family: Cabin, sans-serif;
+  font-size: 16px;
+  color: #2c2c5b;
+}
+
+/* ------------------ Form Styles ---------------------- */
+form.vcx .groups {
+  display: flex;
+  align-items: flex-start;
+}
+
+form.vcx .groups .group {
+  flex-grow: 1;
+}
+
+form.vcx .groups .group:not(:last-of-type) {
+  margin-right: 12px;
+}
+
+form.vcx .group {
+  margin-bottom: 24px;
+}
+
+form.vcx .group label {
+  flex-grow: 1;
+  display: block;
+  font-weight: 600;
+  font-size: 12px;
+  margin-right: 32px;
+  color: #74748c;
+}
+
+form.vcx .group > label {
+  margin-bottom: 8px;
+}
+
+form.vcx .error-message {
+  margin: 6px 0;
+  font-size: 14px;
+  color: #d11212;
+}
+
+form.vcx .section {
+  /* margin-bottom: 40px; */
 }
 
 body {
@@ -287,4 +446,75 @@ header button img {
   #home .conclusion .content button {
     padding: 12px 24px;
   }
+}
+
+/* --------- Loading Screen Styles ---------- */
+#loading {
+  background: #f7f7f7;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#loading .content {
+  position: absolute;
+  text-align: center;
+}
+
+#loading .content i {
+  color: #0086b8;
+  font-size: 40px;
+  margin-bottom: 16px;
+  animation: spinner 1s linear infinite;
+}
+
+#loading .content p {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+@keyframes spinner {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --------- Profile Edit Page Styles ---------- */
+#profile-edit {
+  min-height: 100vh;
+  background: #fcfcfc;
+  padding: 32px 16px;
+}
+
+#profile-edit form {
+  margin: 0 auto;
+  max-width: 420px;
+}
+
+#profile-edit form h2 {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 32px;
+  display: inline-block;
+  background: #8193a4;
+  color: #fff;
+  padding: 12px 16px;
+  /* border-radius: 64px; */
+}
+
+#profile-edit form h2 i {
+  margin-right: 8px;
+}
+
+#profile-edit form button[type='submit'] {
+  margin-top: 32px;
 }
