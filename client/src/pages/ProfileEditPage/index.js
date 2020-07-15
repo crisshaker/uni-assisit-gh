@@ -1,7 +1,8 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
 import Input from './Input';
 import server from '../../apis/server';
 import history from '../../history';
+import Loading from '../../components/Loading';
 
 const initialState = {
   first_name: { value: '', error: '' },
@@ -44,6 +45,21 @@ function reducer(state, action) {
 function ProfileEditPage() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [submitting, setSubmitting] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProfile() {
+      try {
+        const response = await server.get('/user/profile');
+        for (const [name, value] of Object.entries(response.data)) {
+          dispatch({ type: types.CHANGE, name, value });
+        }
+        setLoading(false);
+      } catch (err) {}
+    }
+
+    fetchProfile();
+  }, []);
 
   function onInputChange(e) {
     const { name, value } = e.target;
@@ -79,6 +95,8 @@ function ProfileEditPage() {
       }
     }
   }
+
+  if (loading) return <Loading />;
 
   return (
     <div id="profile-edit">

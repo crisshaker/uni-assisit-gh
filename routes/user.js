@@ -1,6 +1,21 @@
 const { requireAuth } = require('../middlewares');
 const { Profile } = require('../db').models;
 
+async function getProfile(req, res, next) {
+  try {
+    let profile = await Profile.findByPk(req.user.id, {
+      attributes: { exclude: ['user_id', 'created_at', 'updated_at'] },
+    });
+    if (!profile) {
+      profile = {};
+    }
+
+    res.send(profile);
+  } catch (err) {
+    next(err);
+  }
+}
+
 async function editProfile(req, res, next) {
   let { first_name, last_name, pob, phone, id_type, id_num } = req.body;
 
@@ -53,5 +68,6 @@ async function editProfile(req, res, next) {
 }
 
 module.exports = (app) => {
+  app.get('/user/profile', requireAuth, getProfile);
   app.post('/user/profile', requireAuth, editProfile);
 };

@@ -18,7 +18,7 @@ function App({ user, login }) {
   return (
     <BrowserRouter>
       <Route path="/" exact component={HomePage} />
-      <Route path="/profile/edit" exact component={ProfileEditPage} />
+      <ProtectedRoute path="/profile/edit" exact component={ProfileEditPage} />
       <ProtectedRoute path="/dashboard" component={Dashboard} />
     </BrowserRouter>
   );
