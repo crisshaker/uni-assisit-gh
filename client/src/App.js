@@ -7,6 +7,8 @@ import useGoogleLogin from './hooks/useGoogleLogin';
 import Loading from './components/Loading';
 import HomePage from './pages/HomePage';
 import ProfileEditPage from './pages/ProfileEditPage/index';
+import Dashboard from './pages/Dashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App({ user, login }) {
   useGoogleLogin(login);
@@ -17,6 +19,7 @@ function App({ user, login }) {
     <BrowserRouter>
       <Route path="/" exact component={HomePage} />
       <Route path="/profile/edit" exact component={ProfileEditPage} />
+      <ProtectedRoute path="/dashboard" component={Dashboard} />
     </BrowserRouter>
   );
 }

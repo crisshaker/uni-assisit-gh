@@ -23,5 +23,47 @@ module.exports = (sequelize) => {
     }
   );
 
-  return { User };
+  class Profile extends Model {}
+  Profile.init(
+    {
+      user_id: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+        references: { model: User, key: 'id' },
+      },
+      first_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      last_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      pob: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      phone: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      id_type: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      id_num: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+    },
+    {
+      sequelize,
+      tableName: 'profiles',
+      timestamps: true,
+      createdAt: 'created_at',
+      updatedAt: 'updated_at',
+    }
+  );
+
+  return { User, Profile };
 };

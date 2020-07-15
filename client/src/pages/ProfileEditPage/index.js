@@ -1,53 +1,156 @@
-import React from 'react';
+import React, { useState, useReducer } from 'react';
+import Input from './Input';
+import server from '../../apis/server';
+import history from '../../history';
+
+const initialState = {
+  first_name: { value: '', error: '' },
+  last_name: { value: '', error: '' },
+  pob: { value: '', error: '' },
+  phone: { value: '', error: '' },
+  id_type: { value: 'voters', error: '' },
+  id_num: { value: '', error: '' },
+};
+
+const types = {
+  CHANGE: 'CHANGE',
+  SET_ERROR: 'SET_ERROR',
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case types.CHANGE:
+      return {
+        ...state,
+        [action.name]: {
+          ...state[action.name],
+          value: action.value,
+          error: '',
+        },
+      };
+    case types.SET_ERROR:
+      return {
+        ...state,
+        [action.name]: {
+          ...state[action.name],
+          error: action.error,
+        },
+      };
+    default:
+      return state;
+  }
+}
 
 function ProfileEditPage() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const [submitting, setSubmitting] = useState(false);
+
+  function onInputChange(e) {
+    const { name, value } = e.target;
+    dispatch({ type: types.CHANGE, name, value });
+  }
+
+  function setError(name, error) {
+    dispatch({ type: types.SET_ERROR, name, error });
+  }
+
+  async function onSubmit(e) {
+    e.preventDefault();
+
+    const data = {};
+    for (const key in state) {
+      data[key] = state[key].value;
+    }
+
+    setSubmitting(true);
+    try {
+      await server.post('/user/profile', data);
+      window.location = '/dashboard';
+    } catch (err) {
+      setSubmitting(false);
+      const errors = err?.response?.data?.error;
+      if (errors) {
+        for (const [name, error] of Object.entries(errors)) {
+          setError(name, error);
+        }
+
+        const firstElement = document.getElementById(Object.keys(errors)[0]);
+        firstElement.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      }
+    }
+  }
+
   return (
     <div id="profile-edit">
-      <form className="vcx">
+      <form className="vcx" onSubmit={onSubmit}>
         <h2>
           <i className="fas fa-user"></i>Edit your profile
         </h2>
         <div className="section">
           <div className="group">
             <label htmlFor="first_name">First name:</label>
-            <input className="vcx" type="text" id="first_name" />
+            <Input
+              name="first_name"
+              data={state.first_name}
+              onChange={onInputChange}
+            />
           </div>
           <div className="group">
             <label htmlFor="last_name">Last name:</label>
-            <input className="vcx" type="text" id="last_name" />
+            <Input
+              name="last_name"
+              data={state.last_name}
+              onChange={onInputChange}
+            />
           </div>
         </div>
         <div className="section">
           <div className="group">
             <label htmlFor="pob">Place of birth:</label>
-            <input className="vcx" type="text" id="pob" />
+            <Input name="pob" data={state.pob} onChange={onInputChange} />
           </div>
           <div className="group">
             <label htmlFor="phone">Phone number:</label>
-            <input className="vcx" type="text" id="phone" inputMode="tel" />
+            <Input
+              name="phone"
+              inputMode="tel"
+              data={state.phone}
+              onChange={onInputChange}
+            />
           </div>
         </div>
         <div className="section">
           <div className="group">
             <label htmlFor="id_type">National ID Type:</label>
             <div className="vcx select">
-              <select id="id_type">
-                <option>Voter's ID</option>
-                <option>NHIS</option>
-                <option>Driver's License</option>
-                <option>Passport</option>
+              <select
+                id="id_type"
+                name="id_type"
+                value={state.id_type.value}
+                onChange={onInputChange}
+              >
+                <option value="voters">Voter's ID</option>
+                <option value="nhis">NHIS</option>
+                <option value="dvla">Driver's License</option>
+                <option value="passport">Passport</option>
               </select>
             </div>
           </div>
           <div className="group">
-            <label htmlFor="id_number">ID Number:</label>
-            <input className="vcx" type="text" id="id_number" />
+            <label htmlFor="id_num">ID Number:</label>
+            <Input name="id_num" data={state.id_num} onChange={onInputChange} />
           </div>
         </div>
-        <button type="submit" className="vcx block green button">
-          Save Changes
-          <i className="fas fa-check"></i>
-        </button>
+        {submitting ? (
+          <div className="loading-icon">
+            <i className="fas fa-circle-notch"></i>
+          </div>
+        ) : (
+          <button type="submit" className="vcx block green button">
+            Save Changes
+            <i className="fas fa-check"></i>
+          </button>
+        )}
       </form>
       <div style={{ height: 200 }} />
     </div>

@@ -10,11 +10,13 @@ function useGoogleLogin(login) {
         const token = auth.current.currentUser.get().getAuthResponse().id_token;
         try {
           const response = await axios.post('/auth/login', { token });
+          window.auth_token = response.data.token;
           login(response.data.token);
         } catch (err) {
           login(false);
         }
       } else {
+        window.auth_token = undefined;
         login(false);
       }
     }

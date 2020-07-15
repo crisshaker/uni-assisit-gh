@@ -37,6 +37,21 @@ button {
   cursor: pointer;
 }
 
+button:focus {
+  outline: none;
+}
+
+/* ------------------ Animations ---------------------- */
+@keyframes spinner {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* ------------------ Button Styles ---------------------- */
 .vcx.button {
   border-radius: 4px;
@@ -188,6 +203,7 @@ form.vcx .group > label {
 
 form.vcx .error-message {
   margin: 6px 0;
+  font-family: Cabin, sans-serif;
   font-size: 14px;
   color: #d11212;
 }
@@ -478,16 +494,6 @@ header button img {
   font-size: 14px;
 }
 
-@keyframes spinner {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 /* --------- Profile Edit Page Styles ---------- */
 #profile-edit {
   min-height: 100vh;
@@ -517,4 +523,11 @@ header button img {
 
 #profile-edit form button[type='submit'] {
   margin-top: 32px;
+}
+
+#profile-edit form .loading-icon {
+  font-size: 32px;
+  text-align: center;
+  color: #33a800;
+  animation: spinner 0.75s linear infinite;
 }
