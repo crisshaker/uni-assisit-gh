@@ -81,7 +81,7 @@ function ProfileEditPage() {
     setSubmitting(true);
     try {
       await server.post('/user/profile', data);
-      window.location = '/dashboard';
+      window.location = '/dashboard/admissions';
     } catch (err) {
       setSubmitting(false);
       const errors = err?.response?.data?.error;

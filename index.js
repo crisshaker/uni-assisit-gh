@@ -10,7 +10,7 @@ db.sequelize
   .authenticate()
   .then(async () => {
     console.log('SUCCESS: Database connection');
-    await db.sequelize.sync();
+    await db.sequelize.sync({});
     console.log('SUCCESS: Database sync');
   })
   .catch((err) => console.log('ERROR: Database connection', err));

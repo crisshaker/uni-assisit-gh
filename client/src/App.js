@@ -6,9 +6,11 @@ import { login } from './redux/actions';
 import useGoogleLogin from './hooks/useGoogleLogin';
 import Loading from './components/Loading';
 import HomePage from './pages/HomePage';
-import ProfileEditPage from './pages/ProfileEditPage/index';
-import Dashboard from './pages/Dashboard';
+import ProfileEditPage from './pages/ProfileEditPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import AdmissionsPage from './pages/Dashboard/AdmissionsPage';
+import ApplicationsPage from './pages/Dashboard/ApplicationsPage';
+import ApplicationPage from './pages/Dashboard/ApplicationPage';
 
 function App({ user, login }) {
   useGoogleLogin(login);
@@ -19,7 +21,12 @@ function App({ user, login }) {
     <BrowserRouter>
       <Route path="/" exact component={HomePage} />
       <ProtectedRoute path="/profile/edit" exact component={ProfileEditPage} />
-      <ProtectedRoute path="/dashboard" component={Dashboard} />
+      <ProtectedRoute path="/dashboard/admissions" component={AdmissionsPage} />
+      <ProtectedRoute
+        path="/dashboard/applications"
+        component={ApplicationsPage}
+      />
+      <ProtectedRoute path="/admissions/:id" component={ApplicationPage} />
     </BrowserRouter>
   );
 }
